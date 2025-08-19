@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import requests
-from constants import constants, settings
-
+from app.api.api import router as app_router
 
 app = FastAPI(
     title="Redirect API",
@@ -21,12 +19,4 @@ app.add_middleware(
     allow_origins=["*"],
 )
 
-
-@app.get("/")
-def get_redirect_data_api(search_term: str):
-    response = requests.get(
-        constants.BASE_URL,
-        params={"apiKey": settings.MAP_API_KEY, "searchTerm": search_term},
-    )
-    response_object = response.json()
-    return response_object
+app.include_router(app_router)
