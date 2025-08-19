@@ -8,7 +8,7 @@ from app.api.v1.compareTo.schemas import HotelInlineRequest
 router = APIRouter(prefix="/compareTo", tags=["Compare To"])
 
 
-@router.get("/hotel-list")
+@router.post("/hotel-list")
 def get_hotel_list(payload: HotelInlineRequest):
     url = constants.BASE_URL_COMPARETO + constants.HOTEL_LIST_ENDPOINT
     params = {"apiKey": settings.COMPARETO_ADS_API_KEY, "userTrackId": payload.userTrackId}
