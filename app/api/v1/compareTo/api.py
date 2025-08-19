@@ -11,7 +11,10 @@ router = APIRouter(prefix="/compareTo", tags=["Compare To"])
 @router.post("/hotel-list")
 def get_hotel_list(payload: HotelInlineRequest):
     url = constants.BASE_URL_COMPARETO + constants.HOTEL_LIST_ENDPOINT
-    params = {"apiKey": settings.COMPARETO_ADS_API_KEY, "userTrackId": payload.userTrackId}
+    params = {
+        "apiKey": settings.COMPARETO_ADS_API_KEY,
+        "userTrackId": payload.userTrackId,
+    }
 
     headers = {
         "Content-Type": "application/json",
@@ -19,7 +22,7 @@ def get_hotel_list(payload: HotelInlineRequest):
         "x-original-client-ip": payload.clientIP,
     }
 
-    payload = {
+    payload_data = {
         "showOn": payload.showOn,
         "checkinDate": payload.checkinDate,
         "checkoutDate": payload.checkoutDate,
@@ -31,7 +34,7 @@ def get_hotel_list(payload: HotelInlineRequest):
         url,
         params=params,
         headers=headers,
-        json=payload,
+        json=payload_data,
         cookies=payload.cookies if payload.cookies else {},
     )
     response_data = {
