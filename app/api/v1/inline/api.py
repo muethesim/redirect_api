@@ -12,38 +12,37 @@ from app.api.v1.inline.schemas import (
 router = APIRouter(prefix="/inline", tags=["Inline Ads"])
 
 
-@router.post("/hotel-list")
+@router.post(
+    "/hotel-list",
+    summary="Retrieve hotel inline ads",
+    description="""
+Fetch a list of inline hotel advertisements.
+
+**Request Body Fields**:
+- `userTrackId` (str, required): User tracking identifier.
+- `clientIP` (str, required): Client IP address.
+- `cookies` (dict[str, str], optional): Cookies dictionary.
+- `userAgent` (str, optional): User agent string.
+- `cityId` (str, required): City identifier.
+- `checkinDate` (date, required): Check-in date.
+- `checkoutDate` (date, required): Check-out date.
+- `adults` (int, optional, default=2): Number of adults.
+- `rooms` (int, optional, default=1): Number of rooms.
+- `children` (int, optional, default=0): Number of children.
+- `logoDimensions` (object, optional): `{height, width}`.
+- `backgroundImageDimensions` (object, optional): `{height, width}`.
+- `currencyCode` (str, optional, length=3): Currency code.
+""",
+    response_description="Inline hotel ads response",
+)
 def get_hotel_list(payload: HotelInlineRequest):
-    """
-    Hotel Inline API Request Payload
-
-    Fields:
-        userTrackId (str): Required. User tracking identifier.
-        clientIP (str): Required. Client IP address.
-        cookies (Dict[str, str] | None): Optional. Cookies dictionary.
-        userAgent (str | None): Optional. User agent string.
-        cityId (str): Required. City identifier.
-        checkinDate (date): Required. Check-in date.
-        checkoutDate (date): Required. Check-out date.
-        adults (int | None): Optional. Number of adults (default: 2).
-        rooms (int | None): Optional. Number of rooms (default: 1).
-        children (int | None): Optional. Number of children (default: 0).
-        logoDimensions (ImageDimensions | None): Optional. Logo image dimensions.
-        backgroundImageDimensions (ImageDimensions | None): Optional. Background image dimensions.
-        currencyCode (str | None): Optional. Currency code (3 characters).
-    """
     url = constants.BASE_URL_INLINE + constants.HOTEL_LIST_ENDPOINT
-    params = {
-        "apiKey": settings.INLINE_ADS_API_KEY,
-        "userTrackId": payload.userTrackId,
-    }
-
+    params = {"apiKey": settings.INLINE_ADS_API_KEY, "userTrackId": payload.userTrackId}
     headers = {
         "Content-Type": "application/json",
         "User-Agent": payload.userAgent or settings.DEFAULT_USER_AGENT,
         "x-original-client-ip": payload.clientIP,
     }
-
     payload_data = payload.dict(
         exclude={"userTrackId", "clientIP", "cookies", "userAgent"}
     )
@@ -53,46 +52,46 @@ def get_hotel_list(payload: HotelInlineRequest):
         params=params,
         headers=headers,
         json=payload_data,
-        cookies=payload.cookies if payload.cookies else {},
+        cookies=payload.cookies or {},
     )
 
-    response_data = {
-        "status_code": response.status_code,
-        "response": response.json(),
-        "cookies": dict(response.cookies),
-    }
-    return JSONResponse(content=response_data)
+    return JSONResponse(
+        content={
+            "status_code": response.status_code,
+            "response": response.json(),
+            "cookies": dict(response.cookies),
+        }
+    )
 
 
-@router.post("/flight-list")
+@router.post(
+    "/flight-list",
+    summary="Retrieve flight inline ads",
+    description="""
+Fetch a list of inline flight advertisements.
+
+**Request Body Fields**:
+- `userTrackId` (str, required): User tracking identifier.
+- `clientIP` (str, required): Client IP address.
+- `cookies` (dict[str, str], optional): Cookies dictionary.
+- `userAgent` (str, optional): User agent string.
+- `legs` (list[FlightLeg], required): Flight legs with origin, destination, date.
+- `cabin` (str, optional, default="economy"): Cabin type.
+- `passengers` (list[str], optional, default=["adult"]): Passenger types.
+- `logoDimensions` (object, optional): `{height, width}`.
+- `backgroundImageDimensions` (object, optional): `{height, width}`.
+- `currencyCode` (str, optional, length=3): Currency code.
+""",
+    response_description="Inline flight ads response",
+)
 def get_flight_list(payload: FlightInlineRequest):
-    """
-    Flight Inline API Request Payload
-
-    Fields:
-        userTrackId (str): Required. User tracking identifier.
-        clientIP (str): Required. Client IP address.
-        cookies (Dict[str, str] | None): Optional. Cookies dictionary.
-        userAgent (str | None): Optional. User agent string.
-        legs (List[FlightLeg]): Required. List of flight legs.
-        cabin (str | None): Optional. Cabin type (default: "economy").
-        passengers (List[str] | None): Optional. List of passenger types (default: ["adult"]).
-        logoDimensions (ImageDimensions | None): Optional. Logo image dimensions.
-        backgroundImageDimensions (ImageDimensions | None): Optional. Background image dimensions.
-        currencyCode (str | None): Optional. Currency code (3 characters).
-    """
     url = constants.BASE_URL_INLINE + constants.FLIGHT_LIST_ENDPOINT
-    params = {
-        "apiKey": settings.INLINE_ADS_API_KEY,
-        "userTrackId": payload.userTrackId,
-    }
-
+    params = {"apiKey": settings.INLINE_ADS_API_KEY, "userTrackId": payload.userTrackId}
     headers = {
         "Content-Type": "application/json",
         "User-Agent": payload.userAgent or settings.DEFAULT_USER_AGENT,
         "x-original-client-ip": payload.clientIP,
     }
-
     payload_data = payload.dict(
         exclude={"userTrackId", "clientIP", "cookies", "userAgent"}
     )
@@ -102,49 +101,49 @@ def get_flight_list(payload: FlightInlineRequest):
         params=params,
         headers=headers,
         json=payload_data,
-        cookies=payload.cookies if payload.cookies else {},
+        cookies=payload.cookies or {},
     )
 
-    response_data = {
-        "status_code": response.status_code,
-        "response": response.json(),
-        "cookies": dict(response.cookies),
-    }
-    return JSONResponse(content=response_data)
+    return JSONResponse(
+        content={
+            "status_code": response.status_code,
+            "response": response.json(),
+            "cookies": dict(response.cookies),
+        }
+    )
 
 
-@router.post("/car-list")
+@router.post(
+    "/car-list",
+    summary="Retrieve car rental inline ads",
+    description="""
+Fetch a list of inline car rental advertisements.
+
+**Request Body Fields**:
+- `userTrackId` (str, required): User tracking identifier.
+- `clientIP` (str, required): Client IP address.
+- `cookies` (dict[str, str], optional): Cookies dictionary.
+- `userAgent` (str, optional): User agent string.
+- `pickUpLocation` (CarLocation, required): Pick-up location `{type, locationQuery}`.
+- `dropOffLocation` (CarLocation, optional): Drop-off location `{type, locationQuery}`.
+- `pickUpHour` (int, optional, default=12, range=0-23): Pick-up hour.
+- `dropOffHour` (int, optional, default=12, range=0-23): Drop-off hour.
+- `pickUpDate` (date, required): Pick-up date.
+- `dropOffDate` (date, required): Drop-off date.
+- `logoDimensions` (object, optional): `{height, width}`.
+- `backgroundImageDimensions` (object, optional): `{height, width}`.
+- `currencyCode` (str, optional, length=3): Currency code.
+""",
+    response_description="Inline car rental ads response",
+)
 def get_car_list(payload: CarInlineRequest):
-    """
-    Car Inline API Request Payload
-
-    Fields:
-        userTrackId (str): Required. User tracking identifier.
-        clientIP (str): Required. Client IP address.
-        cookies (Dict[str, str] | None): Optional. Cookies dictionary.
-        userAgent (str | None): Optional. User agent string.
-        pickUpLocation (CarLocation): Required. Pick-up location.
-        dropOffLocation (CarLocation | None): Optional. Drop-off location.
-        pickUpHour (int | None): Optional. Pick-up hour (default: 12, range: 0-23).
-        dropOffHour (int | None): Optional. Drop-off hour (default: 12, range: 0-23).
-        pickUpDate (date): Required. Pick-up date.
-        dropOffDate (date): Required. Drop-off date.
-        logoDimensions (ImageDimensions | None): Optional. Logo image dimensions.
-        backgroundImageDimensions (ImageDimensions | None): Optional. Background image dimensions.
-        currencyCode (str | None): Optional. Currency code (3 characters).
-    """
     url = constants.BASE_URL_INLINE + constants.CAR_LIST_ENDPOINT
-    params = {
-        "apiKey": settings.INLINE_ADS_API_KEY,
-        "userTrackId": payload.userTrackId,
-    }
-
+    params = {"apiKey": settings.INLINE_ADS_API_KEY, "userTrackId": payload.userTrackId}
     headers = {
         "Content-Type": "application/json",
         "User-Agent": payload.userAgent or settings.DEFAULT_USER_AGENT,
         "x-original-client-ip": payload.clientIP,
     }
-
     payload_data = payload.dict(
         exclude={"userTrackId", "clientIP", "cookies", "userAgent"}
     )
@@ -154,12 +153,13 @@ def get_car_list(payload: CarInlineRequest):
         params=params,
         headers=headers,
         json=payload_data,
-        cookies=payload.cookies if payload.cookies else {},
+        cookies=payload.cookies or {},
     )
 
-    response_data = {
-        "status_code": response.status_code,
-        "response": response.json(),
-        "cookies": dict(response.cookies),
-    }
-    return JSONResponse(content=response_data)
+    return JSONResponse(
+        content={
+            "status_code": response.status_code,
+            "response": response.json(),
+            "cookies": dict(response.cookies),
+        }
+    )
