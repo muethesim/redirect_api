@@ -106,7 +106,9 @@ def get_flight_list(payload: FlightInlineRequest):
         "Chrome/139.0.0.0 Safari/537.36",
         "x-original-client-ip": payload.clientIP,
     }
-    payload_data = payload.dict(exclude={"userTrackId", "clientIP", "cookies"})
+    payload_data = payload.model_dump(
+        exclude={"userTrackId", "clientIP", "cookies"}, exclude_unset=True
+    )
 
     response = requests.post(
         url,
@@ -160,7 +162,9 @@ def get_car_list(payload: CarInlineRequest):
         "Chrome/139.0.0.0 Safari/537.36",
         "x-original-client-ip": payload.clientIP,
     }
-    payload_data = payload.dict(exclude={"userTrackId", "clientIP", "cookies"})
+    payload_data = payload.model_dump(
+        exclude={"userTrackId", "clientIP", "cookies"}, exclude_unset=True
+    )
 
     response = requests.post(
         url,

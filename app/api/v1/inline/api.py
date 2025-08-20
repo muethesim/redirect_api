@@ -40,11 +40,13 @@ def get_hotel_list(payload: HotelInlineRequest):
     params = {"apiKey": settings.INLINE_ADS_API_KEY, "userTrackId": payload.userTrackId}
     headers = {
         "Content-Type": "application/json",
-        "User-Agent": payload.userAgent or settings.DEFAULT_USER_AGENT,
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/139.0.0.0 Safari/537.36",
         "x-original-client-ip": payload.clientIP,
     }
-    payload_data = payload.dict(
-        exclude={"userTrackId", "clientIP", "cookies", "userAgent"}
+    payload_data = payload.model_dump(
+        exclude={"userTrackId", "clientIP", "cookies", "userAgent"}, exclude_unset=True
     )
 
     response = requests.post(
@@ -89,12 +91,16 @@ def get_flight_list(payload: FlightInlineRequest):
     params = {"apiKey": settings.INLINE_ADS_API_KEY, "userTrackId": payload.userTrackId}
     headers = {
         "Content-Type": "application/json",
-        "User-Agent": payload.userAgent or settings.DEFAULT_USER_AGENT,
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/139.0.0.0 Safari/537.36",
         "x-original-client-ip": payload.clientIP,
     }
-    payload_data = payload.dict(
-        exclude={"userTrackId", "clientIP", "cookies", "userAgent"}
+    payload_data = payload.model_dump(
+        exclude={"userTrackId", "clientIP", "cookies", "userAgent"}, exclude_unset=True
     )
+
+    print(payload_data)
 
     response = requests.post(
         url,
@@ -103,6 +109,8 @@ def get_flight_list(payload: FlightInlineRequest):
         json=payload_data,
         cookies=payload.cookies or {},
     )
+
+    print(response.json())
 
     return JSONResponse(
         content={
@@ -141,11 +149,13 @@ def get_car_list(payload: CarInlineRequest):
     params = {"apiKey": settings.INLINE_ADS_API_KEY, "userTrackId": payload.userTrackId}
     headers = {
         "Content-Type": "application/json",
-        "User-Agent": payload.userAgent or settings.DEFAULT_USER_AGENT,
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/139.0.0.0 Safari/537.36",
         "x-original-client-ip": payload.clientIP,
     }
-    payload_data = payload.dict(
-        exclude={"userTrackId", "clientIP", "cookies", "userAgent"}
+    payload_data = payload.model_dump(
+        exclude={"userTrackId", "clientIP", "cookies", "userAgent"}, exclude_unset=True
     )
 
     response = requests.post(
