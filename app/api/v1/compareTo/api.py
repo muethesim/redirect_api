@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 import requests
 from app.utils.constants import constants
@@ -35,7 +35,7 @@ Fetch a list of **CompareTo hotel advertisements**.
 """,
     response_description="CompareTo hotel ads response",
 )
-def get_hotel_list(payload: HotelInlineRequest):
+def get_hotel_list(payload: HotelInlineRequest, request: Request):
     url = constants.BASE_URL_COMPARETO + constants.HOTEL_LIST_ENDPOINT
     params = {
         "apiKey": settings.COMPARETO_ADS_API_KEY,
@@ -58,16 +58,22 @@ def get_hotel_list(payload: HotelInlineRequest):
         params=params,
         headers=headers,
         json=payload_data,
-        cookies=payload.cookies or {},
+        cookies=request.cookies or {},
     )
 
-    return JSONResponse(
+    cookies = dict(response.cookies)
+
+    json_response = JSONResponse(
         content={
             "status_code": response.status_code,
             "response": response.json(),
-            "cookies": dict(response.cookies),
-        }
+        },
     )
+
+    for key, value in cookies.items():
+        json_response.set_cookie(key=key, value=value)
+
+    return json_response
 
 
 @router.post(
@@ -93,7 +99,7 @@ Fetch a list of **CompareTo flight advertisements**.
 """,
     response_description="CompareTo flight ads response",
 )
-def get_flight_list(payload: FlightInlineRequest):
+def get_flight_list(payload: FlightInlineRequest, request: Request):
     url = constants.BASE_URL_COMPARETO + constants.FLIGHT_LIST_ENDPOINT
     params = {
         "apiKey": settings.COMPARETO_ADS_API_KEY,
@@ -113,16 +119,20 @@ def get_flight_list(payload: FlightInlineRequest):
         params=params,
         headers=headers,
         json=payload_data,
-        cookies=payload.cookies or {},
+        cookies=request.cookies or {},
     )
 
-    return JSONResponse(
+    cookies = dict(response.cookies)
+
+    json_response = JSONResponse(
         content={
             "status_code": response.status_code,
             "response": response.json(),
-            "cookies": dict(response.cookies),
-        }
+        },
     )
+    for key, value in cookies.items():
+        json_response.set_cookie(key=key, value=value)
+    return json_response
 
 
 @router.post(
@@ -148,7 +158,7 @@ Fetch a list of **CompareTo car rental advertisements**.
 """,
     response_description="CompareTo car rental ads response",
 )
-def get_car_list(payload: CarInlineRequest):
+def get_car_list(payload: CarInlineRequest, request: Request):
     url = constants.BASE_URL_COMPARETO + constants.CAR_LIST_ENDPOINT
     params = {
         "apiKey": settings.COMPARETO_ADS_API_KEY,
@@ -168,13 +178,19 @@ def get_car_list(payload: CarInlineRequest):
         params=params,
         headers=headers,
         json=payload_data,
-        cookies=payload.cookies or {},
+        cookies=request.cookies or {},
     )
 
-    return JSONResponse(
+    cookies = dict(response.cookies)
+
+    json_response = JSONResponse(
         content={
             "status_code": response.status_code,
             "response": response.json(),
-            "cookies": dict(response.cookies),
-        }
+        },
     )
+
+    for key, value in cookies.items():
+        json_response.set_cookie(key=key, value=value)
+
+    return json_response
