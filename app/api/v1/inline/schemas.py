@@ -48,7 +48,9 @@ class HotelInlineRequest(BaseModel):
     userTrackId: str
     clientIP: str
     cookies: Optional[Dict[str, str]] = None
-    userAgent: Optional[str] = "kayakaffiliateapp"
+    userAgent: Optional[str] = (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+    )
 
     # Hotel-specific fields
     cityId: str
@@ -83,7 +85,9 @@ class FlightInlineRequest(BaseModel):
     userTrackId: str
     clientIP: str
     cookies: Optional[Dict[str, str]] = None
-    userAgent: Optional[str] = "kayakaffiliateapp"
+    userAgent: Optional[str] = (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+    )
 
     # Flight-specific fields
     legs: List[FlightLeg]
@@ -120,7 +124,9 @@ class CarInlineRequest(BaseModel):
     userTrackId: str
     clientIP: str
     cookies: Optional[Dict[str, str]] = None
-    userAgent: Optional[str] = "kayakaffiliateapp"
+    userAgent: Optional[str] = (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+    )
 
     # Car-specific fields
     pickUpLocation: CarLocation
