@@ -21,6 +21,7 @@ Fetch a list of **CompareTo hotel advertisements**.
 **Request Body Fields**:
 - `userTrackId` (str, required): User tracking identifier.
 - `clientIP` (str, required): Client IP address.
+- `userAgent` (str, optional): User agent string.
 - `showOn` (str, required): Where to show the result (e.g. `frontDoor`, `resultsPage`).
 - `checkinDate` (str, required): Check-in date (format: `YYYY-MM-DD`).
 - `checkoutDate` (str, required): Check-out date (format: `YYYY-MM-DD`).
@@ -42,9 +43,7 @@ def get_hotel_list(payload: HotelInlineRequest):
     }
     headers = {
         "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/139.0.0.0 Safari/537.36",
+        "User-Agent": payload.userAgent,
         "x-original-client-ip": payload.clientIP,
     }
     payload_data = {
@@ -81,6 +80,7 @@ Fetch a list of **CompareTo flight advertisements**.
 - `userTrackId` (str, required): User tracking identifier.
 - `clientIP` (str, required): Client IP address.
 - `cookies` (dict, optional): Cookies dictionary.
+- `userAgent` (str, optional): User agent string.
 - `showOn` (str, required): Where to show the result (e.g. `resultsPage`, `modal`).
 - `legs` (list[FlightLeg], required): Flight legs:
   - `originAirport` (str): Departure airport.
@@ -101,9 +101,7 @@ def get_flight_list(payload: FlightInlineRequest):
     }
     headers = {
         "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/139.0.0.0 Safari/537.36",
+        "User-Agent": payload.userAgent,
         "x-original-client-ip": payload.clientIP,
     }
     payload_data = payload.model_dump(
@@ -137,6 +135,7 @@ Fetch a list of **CompareTo car rental advertisements**.
 - `userTrackId` (str, required): User tracking identifier.
 - `clientIP` (str, required): Client IP address.
 - `cookies` (dict, optional): Cookies dictionary.
+- `userAgent` (str, optional): User agent string.
 - `showOn` (str, required): Where to show the result (e.g. `panel`, `search`).
 - `pickUpLocation` (CarLocation, required): Pick-up location `{type, locationQuery}`.
 - `dropOffLocation` (CarLocation, optional): Drop-off location `{type, locationQuery}`.
@@ -157,9 +156,7 @@ def get_car_list(payload: CarInlineRequest):
     }
     headers = {
         "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/139.0.0.0 Safari/537.36",
+        "User-Agent": payload.userAgent,
         "x-original-client-ip": payload.clientIP,
     }
     payload_data = payload.model_dump(

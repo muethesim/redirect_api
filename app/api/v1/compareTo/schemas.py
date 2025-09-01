@@ -14,6 +14,7 @@ class HotelInlineRequest(BaseModel):
     Fields:
         userTrackId (str): Required. User tracking identifier.
         clientIP (str): Required. Client IP address.
+        userAgent (str | None): Optional. User agent string.
         showOn (str): Required. Where to show the result.
         checkinDate (str): Required. Check-in date (format: YYYY-MM-DD).
         checkoutDate (str): Required. Check-out date (format: YYYY-MM-DD).
@@ -29,6 +30,7 @@ class HotelInlineRequest(BaseModel):
     userTrackId: str
     clientIP: str
     showOn: str
+    userAgent: Optional[str] = "kayakaffiliateapp"
     checkinDate: str
     checkoutDate: str
     requireIFrameSupport: bool | None = None
@@ -74,6 +76,7 @@ class FlightInlineRequest(BaseModel):
     userTrackId: str
     clientIP: str
     cookies: Optional[Dict[str, Any]] = None
+    userAgent: Optional[str] = "kayakaffiliateapp"
 
     showOn: str
     legs: List[FlightLeg]
@@ -118,6 +121,7 @@ class CarInlineRequest(BaseModel):
     userTrackId: str
     clientIP: str
     cookies: Optional[Dict[str, Any]] = None
+    userAgent: Optional[str] = "kayakaffiliateapp"
 
     showOn: str
     pickUpLocation: CarLocation
