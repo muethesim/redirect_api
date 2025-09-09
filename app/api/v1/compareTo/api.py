@@ -111,7 +111,7 @@ def get_flight_list(payload: FlightInlineRequest, request: Request):
         "x-original-client-ip": payload.clientIP,
     }
     payload_data = payload.model_dump(
-        exclude={"userTrackId", "clientIP", "cookies"}, exclude_unset=True
+        exclude={"userTrackId", "clientIP", "cookies", "userAgent"}, exclude_unset=True
     )
 
     response = requests.post(
